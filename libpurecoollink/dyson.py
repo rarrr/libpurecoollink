@@ -41,7 +41,7 @@ class DysonAccount:
         }
         login = requests.post(
             "https://{0}/v1/userregistration/authenticate?country={1}".format(
-                DYSON_API_URL, self._country), request_body, verify=False)
+                DYSON_API_URL, self._country), request_body, verify=False, headers={'User-Agent': 'Mozilla/5.0'})
         # pylint: disable=no-member
         if login.status_code == requests.codes.ok:
             json_response = login.json()
@@ -57,7 +57,7 @@ class DysonAccount:
         if self._logged:
             device_response = requests.get(
                 "https://{0}/v1/provisioningservice/manifest".format(
-                    DYSON_API_URL), verify=False, auth=self._auth)
+                    DYSON_API_URL), verify=False, auth=self._auth, headers={'User-Agent': 'Mozilla/5.0'})
             devices = []
             for device in device_response.json():
                 if is_360_eye_device(device):
